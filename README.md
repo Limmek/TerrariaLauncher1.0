@@ -1,5 +1,6 @@
 # TerrariaLuancherBeta
-TerrariaLuancher
+# https://github.com/Limmek/TerrariaLauncher1.0.git
+# TerrariaLuancher
 The MIT License (MIT)
 
 Copyright (c) <2015> <Limmek>
