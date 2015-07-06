@@ -77,6 +77,7 @@ type
     Button1: TButton;
     Label1: TLabel;
     Label2: TLabel;
+    TimerAutoUpdate: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure ButtonLoadConfigClick(Sender: TObject);
     procedure ButtonStartServerClick(Sender: TObject);
@@ -102,6 +103,7 @@ type
     procedure IconResponse(var Msg: TMessage); message WM_ICONRESPONSE;
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure TimerAutoUpdateTimer(Sender: TObject);
   private
     { Private declarations }
     ConfigLoaded, Secure, CheckMaxPlayers, FormSizeLoadConfig,
@@ -254,6 +256,7 @@ begin
    begin
     Form1.ButtonStartServer.Enabled := True;
     Form1.ButtonStopServer.Enabled := False;
+
    end
  else
   begin
@@ -463,9 +466,25 @@ begin
   end
  end;
 
+procedure CheckServerExe();
+begin
+   if FileExists(Form1.Path+'TerrariaServer.exe') then
+    Form1.ButtonLoadConfig.Enabled := True
+   else
+     Form1.ButtonLoadConfig.Enabled := False
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
- begin
+begin
+
+  Path := ExtractFilePath(ParamStr(0));
+  PathWorld := Path+'worlds\';
+
+
   FormSizeLoadConfig := True;
+
+
+
   FormSize();
   AutoCreateMap();
   LoadConfig();
@@ -481,12 +500,12 @@ procedure TForm1.FormCreate(Sender: TObject);
   AllowUpNp();
   npcStream();
 
+
+  ButtonLoadConfig.Enabled := False;
   ButtonStartServer.Enabled := False;
   ButtonStopServer.Enabled := False;
 
-  Path := ExtractFilePath(ParamStr(0));
-  PathWorld := Path+'worlds\';
-
+  TimerAutoUpdate.Enabled := True;
 
   EConfigName.Visible := False;
   LConfigName.Visible := False;
@@ -547,7 +566,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 
 
   
- end;
+end;
 
 procedure TForm1.ButtonLoadConfigClick(Sender: TObject);
 begin
@@ -796,6 +815,11 @@ if FIconShown then
       ShowTrayIcon;
       Form1.Visible := false;
      end
+end;
+
+procedure TForm1.TimerAutoUpdateTimer(Sender: TObject);
+begin
+CheckServerExe();
 end;
 
 end.

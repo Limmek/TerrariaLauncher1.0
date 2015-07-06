@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 239
-  Top = 134
+  Left = 227
+  Top = 141
   BorderStyle = bsToolWindow
   Caption = 'Form1'
   ClientHeight = 624
@@ -701,6 +701,11 @@ object Form1: TForm1
     Interval = 10
     OnTimer = Timer1Timer
     Left = 304
-    Top = 8
+  end
+  object TimerAutoUpdate: TTimer
+    Enabled = False
+    OnTimer = TimerAutoUpdateTimer
+    Left = 275
+    Top = 65535
   end
 end
