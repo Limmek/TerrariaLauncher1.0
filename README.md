@@ -14,7 +14,7 @@ Autocreate serverconfig if not exist.
 2  Run the Terraria Luancher!
 
 
-## Realese
+## Release
 The latest compiled working software.
 
 
@@ -22,11 +22,10 @@ The latest compiled working software.
 The source code and includes the Delphi 7 project file.
 
 
+>Copyright (c) <2015> <Limmek>
 
 ------------------------------------------
->The MIT License (MIT)
-
->Copyright (c) <2015> <Limmek>
+###The MIT License (MIT)
 
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 >of this software and associated documentation files (the "Software"), to deal
