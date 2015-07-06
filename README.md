@@ -1,7 +1,7 @@
-# TerrariaLuancherBeta
+#TerrariaLuancher 1.0
 ======================
 # 
-## [TerrariaLuancher 1.0 - Betaexample link](https://github.com/Limmek/TerrariaLauncher1.0.git)
+## [TerrariaLuancher 1.0](https://github.com/Limmek/TerrariaLauncher1.0.git)
 
 
 This is a simple software to run a Dedecated Terraria server!
