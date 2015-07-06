@@ -22,6 +22,8 @@ The latest compiled working software.
 The source code and includes the Delphi 7 project file.
 
 
+![ScreenShot](https://github.com/Limmek/TerrariaLauncher1.0/blob/master/TerrariaLuancherCreateWorld.JPG)
+![ScreenShot](https://github.com/Limmek/TerrariaLauncher1.0/blob/master/TerrariaLuancherLoadWorld.JPG)
 
 ------------------------------------------
 
