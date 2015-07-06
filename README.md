@@ -22,9 +22,11 @@ The latest compiled working software.
 The source code and includes the Delphi 7 project file.
 
 
->Copyright (c) <2015> <Limmek>
 
 ------------------------------------------
+
+
+
 ###The MIT License (MIT)
 
 >Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,3 +46,5 @@ The source code and includes the Delphi 7 project file.
 >LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 >OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 >THE SOFTWARE.
+> 
+>Copyright (c) <2015> <Limmek>
