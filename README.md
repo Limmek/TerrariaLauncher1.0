@@ -11,7 +11,7 @@ Autocreate serverconfig if not exist.
 
 #How it works!
 1. Put the Terraria Luancher in the latest Dedicated Terraria Server directory.
-2  Run the Terraria Luancher!
+2.  Run the Terraria Luancher!
 
 
 ## Release
