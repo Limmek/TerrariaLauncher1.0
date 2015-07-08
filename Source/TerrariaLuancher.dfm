@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 141
   BorderStyle = bsToolWindow
   Caption = 'Form1'
-  ClientHeight = 624
+  ClientHeight = 766
   ClientWidth = 340
   Color = clMedGray
   Font.Charset = DEFAULT_CHARSET
@@ -12,6 +12,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -589,9 +590,9 @@ object Form1: TForm1
   end
   object GroupBoxSendServerMessage: TGroupBox
     Left = 10
-    Top = 432
+    Top = 472
     Width = 320
-    Height = 70
+    Height = 140
     Caption = 'Send Server Command'
     Enabled = False
     TabOrder = 1
@@ -612,16 +613,71 @@ object Form1: TForm1
       TabOrder = 1
       OnClick = ButtonSendServerCommandClick
     end
+    object ButtonMidnight: TButton
+      Left = 96
+      Top = 48
+      Width = 75
+      Height = 25
+      Caption = 'Midnight'
+      TabOrder = 2
+      OnClick = ButtonMidnightClick
+    end
+    object ButtonDusk: TButton
+      Left = 8
+      Top = 112
+      Width = 75
+      Height = 25
+      Caption = 'Dusk'
+      TabOrder = 3
+      OnClick = ButtonDuskClick
+    end
+    object ButtonNoon: TButton
+      Left = 8
+      Top = 80
+      Width = 75
+      Height = 25
+      Caption = 'Noon'
+      TabOrder = 4
+      OnClick = ButtonNoonClick
+    end
+    object ButtonSave: TButton
+      Left = 96
+      Top = 112
+      Width = 75
+      Height = 25
+      Caption = 'Save'
+      TabOrder = 5
+      OnClick = ButtonSaveClick
+    end
+    object ButtonDawn: TButton
+      Left = 8
+      Top = 48
+      Width = 75
+      Height = 25
+      Caption = 'Dawn'
+      TabOrder = 6
+      OnClick = ButtonDawnClick
+    end
+    object ButtonSettleWatter: TButton
+      Left = 96
+      Top = 80
+      Width = 75
+      Height = 25
+      Caption = 'Settle Watter'
+      TabOrder = 7
+      OnClick = ButtonSettleWatterClick
+    end
   end
   object ButtonPanel: TPanel
     Left = 10
     Top = 392
     Width = 320
-    Height = 34
+    Height = 65
     Align = alCustom
-    BevelOuter = bvNone
-    Caption = 'ButtonPanel'
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
     Color = clMedGray
+    ParentBackground = True
     TabOrder = 2
     object ButtonLoadConfig: TButton
       Left = 34
@@ -650,10 +706,37 @@ object Form1: TForm1
       TabOrder = 2
       OnClick = ButtonStopServerClick
     end
+    object ButtonHideLuancher: TButton
+      Left = 235
+      Top = 35
+      Width = 80
+      Height = 25
+      Caption = 'Hide Luancher'
+      TabOrder = 3
+      OnClick = ButtonHideLuancherClick
+    end
+    object ButtonHideServer: TButton
+      Left = 5
+      Top = 35
+      Width = 110
+      Height = 25
+      Caption = 'Hide Server  Window'
+      TabOrder = 4
+      OnClick = ButtonHideServerClick
+    end
+    object ButtonShowServer: TButton
+      Left = 120
+      Top = 35
+      Width = 110
+      Height = 25
+      Caption = 'Show Server Window'
+      TabOrder = 5
+      OnClick = ButtonShowServerClick
+    end
   end
   object GroupBoxServerInfo: TGroupBox
     Left = 10
-    Top = 512
+    Top = 632
     Width = 320
     Height = 97
     Caption = 'Server Info'
@@ -661,39 +744,54 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 16
       Top = 24
-      Width = 32
+      Width = 39
       Height = 13
       Caption = 'Label3'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label4: TLabel
       Left = 16
       Top = 48
-      Width = 32
+      Width = 39
       Height = 13
       Caption = 'Label4'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label1: TLabel
-      Left = 144
+      Left = 152
       Top = 24
-      Width = 32
+      Width = 39
       Height = 13
       Caption = 'Label1'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object Label2: TLabel
-      Left = 144
+      Left = 152
       Top = 48
-      Width = 32
+      Width = 39
       Height = 13
       Caption = 'Label2'
-    end
-    object Button1: TButton
-      Left = 232
-      Top = 64
-      Width = 75
-      Height = 25
-      Caption = 'Hide'
-      TabOrder = 0
-      OnClick = Button1Click
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
   end
   object Timer1: TTimer
@@ -707,5 +805,13 @@ object Form1: TForm1
     OnTimer = TimerAutoUpdateTimer
     Left = 275
     Top = 65535
+  end
+  object PopupMenuIcon: TPopupMenu
+    Left = 82
+    Top = 2
+    object ShowLuancher1: TMenuItem
+      Caption = 'Show Luancher'
+      OnClick = ShowLuancher1Click
+    end
   end
 end

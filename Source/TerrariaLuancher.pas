@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, jpeg, ExtCtrls, ShellApi;
+  Dialogs, StdCtrls, jpeg, ExtCtrls, ShellApi, Menus;
 
 
 const
@@ -74,10 +74,20 @@ type
     GroupBoxServerInfo: TGroupBox;
     Label3: TLabel;
     Label4: TLabel;
-    Button1: TButton;
+    ButtonHideLuancher: TButton;
     Label1: TLabel;
     Label2: TLabel;
     TimerAutoUpdate: TTimer;
+    ButtonHideServer: TButton;
+    ButtonShowServer: TButton;
+    ButtonMidnight: TButton;
+    ButtonDusk: TButton;
+    ButtonNoon: TButton;
+    ButtonSave: TButton;
+    ButtonDawn: TButton;
+    ButtonSettleWatter: TButton;
+    PopupMenuIcon: TPopupMenu;
+    ShowLuancher1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ButtonLoadConfigClick(Sender: TObject);
     procedure ButtonStartServerClick(Sender: TObject);
@@ -102,8 +112,17 @@ type
     procedure HideTrayIcon();
     procedure IconResponse(var Msg: TMessage); message WM_ICONRESPONSE;
     procedure FormDestroy(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure ButtonHideLuancherClick(Sender: TObject);
     procedure TimerAutoUpdateTimer(Sender: TObject);
+    procedure ButtonHideServerClick(Sender: TObject);
+    procedure ShowLuancher1Click(Sender: TObject);
+    procedure ButtonShowServerClick(Sender: TObject);
+    procedure ButtonMidnightClick(Sender: TObject);
+    procedure ButtonNoonClick(Sender: TObject);
+    procedure ButtonDawnClick(Sender: TObject);
+    procedure ButtonDuskClick(Sender: TObject);
+    procedure ButtonSettleWatterClick(Sender: TObject);
+    procedure ButtonSaveClick(Sender: TObject);
   private
     { Private declarations }
     ConfigLoaded, Secure, CheckMaxPlayers, FormSizeLoadConfig,
@@ -200,12 +219,12 @@ begin
  Form1.GroupBoxConfig.Left := 10;
 
  Form1.ButtonPanel.Width := 320;
- Form1.ButtonPanel.Height := 34;
+ Form1.ButtonPanel.Height := 65;
  Form1.ButtonPanel.Top := 10;
  Form1.ButtonPanel.Left := 10;
 
  Form1.GroupBoxSendServerMessage.Width:= 320;
- Form1.GroupBoxSendServerMessage.Height := 70;
+ Form1.GroupBoxSendServerMessage.Height := 140;
  Form1.GroupBoxSendServerMessage.Top := 10;
  Form1.GroupBoxSendServerMessage.Left := 10;
 
@@ -305,14 +324,12 @@ begin
   begin
    Form1.EWorld.Enabled := False;
    Form1.CheckBoxWorld.Font.Color := clRed;
-   //Form1.CheckWorld := True;
    Form1.CheckWorldParam := '#';
   end
  else
   begin
    Form1.EWorld.Enabled := True;
    Form1.CheckBoxWorld.Font.Color := clGreen;
-   //Form1.CheckWorld := False;
    Form1.CheckWorldParam := '';
  end;
 end;
@@ -339,14 +356,12 @@ begin
   begin
    Form1.EPort.Enabled := False;
    Form1.CheckBoxPort.Font.Color := clRed;
-   //Form1.CheckPort := True;
    Form1.CheckPortParam := '#';
   end
  else
   begin
    Form1.EPort.Enabled := True;
    Form1.CheckBoxPort.Font.Color := clGreen;
-   //Form1.CheckPort := False;
    Form1.CheckPortParam := '';
  end;
 end;
@@ -484,7 +499,7 @@ begin
   FormSizeLoadConfig := True;
 
 
-
+  ShowTrayIcon;
   FormSize();
   AutoCreateMap();
   LoadConfig();
@@ -504,6 +519,9 @@ begin
   ButtonLoadConfig.Enabled := False;
   ButtonStartServer.Enabled := False;
   ButtonStopServer.Enabled := False;
+  ButtonHideServer.Enabled := False;
+  ButtonShowServer.Enabled := False;
+  Form1.ButtonHideLuancher.Enabled := False;
 
   TimerAutoUpdate.Enabled := True;
 
@@ -613,15 +631,18 @@ procedure TForm1.ButtonStartServerClick(Sender: TObject);
   filename := 'TerrariaServer.exe';
   parameters := '-config serverconfig.txt';
   ShellExecute(ServerHandle,'RunAs',PChar(Path+filename), PChar(parameters),'',SW_SHOWNORMAL);
+
   ButtonStopServer.Enabled := True;
   ButtonStartServer.Enabled := False;
   ButtonLoadConfig.Enabled := False;
+
   GroupBoxSendServerMessage.Enabled := True;
   FormSizeLoadServerStarted := True;
   FormSizeLoadConfig := False;
   FormSize();
-  ServerUpTime();
 
+  ServerUpTime();
+  Label1.Caption := 'World Name: '+EWorld.Text;
  end;
 
 
@@ -734,8 +755,8 @@ begin
   CurTime := Now ;
   s :=  TimeToStr(ServerStartTime) ;
   t := TimeToStr(CurTime-ServerStartTime);
-  Label3.Caption := 'Server Started: '+s;
-  Label4.Caption := 'Server up Time: '+t;
+  Label3.Caption := 'Started: '+s;
+  Label4.Caption := 'Up Time: '+t;
 end;
 
 procedure TForm1.ShowTrayIcon;
@@ -788,23 +809,25 @@ procedure TForm1.IconResponse(var Msg: TMessage);
     case Msg.lParam of
       WM_LBUTTONDOWN:
       begin
-        Form1.Visible := True;
-        HideTrayIcon;
+        //Form1.Visible := True;
+        //HideTrayIcon;
+        GetCursorPos(pt);
+        PopupMenuIcon.Popup(pt.x, pt.y);
       end;
       WM_RBUTTONDOWN:
       begin
-       // GetCursorPos(pt);
-       // pmRightClick.Popup(pt.x, pt.y);
+        GetCursorPos(pt);
+        PopupMenuIcon.Popup(pt.x, pt.y);
       end;
     end;
   end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
-  begin
-    HideTrayIcon;
-  end;
+begin
+ HideTrayIcon;
+end;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.ButtonHideLuancherClick(Sender: TObject);
 begin
 if FIconShown then
       begin
@@ -815,11 +838,149 @@ if FIconShown then
       ShowTrayIcon;
       Form1.Visible := false;
      end
+
+end;
+
+procedure GetServerWindow();
+var
+ theHandle: THandle;
+begin
+ theHandle := HWndGet('Terraria Server: '+Form1.EWorld.Text);
+  if theHandle <> 0 then
+  begin
+  Form1.Serverhandle := theHandle;
+  Form1.Label2.Caption := 'Server is Runing!';
+  Form1.Label2.Font.Color := clGreen ;
+  Form1.ButtonHideServer.Enabled := True;
+  Form1.ButtonShowServer.Enabled := True;
+  Form1.ButtonHideLuancher.Enabled := True;
+  end
+  else
+  begin
+  Form1.Label2.Caption := 'Server is Not Runing!';
+  Form1.Label2.Font.Color := clRed ;
+  Form1.ButtonHideServer.Enabled := False;
+  Form1.ButtonShowServer.Enabled := False;
+  end
+
+
 end;
 
 procedure TForm1.TimerAutoUpdateTimer(Sender: TObject);
 begin
-CheckServerExe();
+ CheckServerExe();
+ GetServerWindow();
+end;
+
+
+
+procedure TForm1.ButtonHideServerClick(Sender: TObject);
+begin
+ ShowWindow(Serverhandle,SW_HIDE);
+
+end;
+
+procedure TForm1.ShowLuancher1Click(Sender: TObject);
+begin
+ Form1.Visible := True;
+end;
+
+
+procedure TForm1.ButtonShowServerClick(Sender: TObject);
+begin
+ ShowWindow(Serverhandle,SW_SHOW);
+end;
+
+procedure TForm1.ButtonMidnightClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'Midnight';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
+end;
+
+procedure TForm1.ButtonNoonClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'NOon';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
+end;
+
+procedure TForm1.ButtonDawnClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'Dawn';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
+
+end;
+
+procedure TForm1.ButtonDuskClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'Dusk';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
+
+end;
+
+procedure TForm1.ButtonSettleWatterClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'Settle';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
+end;
+
+procedure TForm1.ButtonSaveClick(Sender: TObject);
+ var
+  theHandle :THandle;
+  s:string;
+  i:integer;
+ begin
+  theHandle := Serverhandle;
+  if theHandle <> 0 then
+
+    s := 'Save';
+    for i := 1 to Length(s) do
+    SendMessage(theHandle, WM_CHAR, Word(s[i]), 0);
+    PostMessage(theHandle, WM_KEYDOWN, VK_RETURN, 0);
 end;
 
 end.
